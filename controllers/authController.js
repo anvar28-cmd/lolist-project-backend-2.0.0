@@ -2,24 +2,15 @@ const knex = require("knex")(require("../knexfile"));
 const jwt = require("jsonwebtoken");
 const secret = process.env.SECRET_KEY ?? "secret123";
 
-exports.index = (_req, res) => {
-  knex("users")
-    .then((data) => {
-      res.status(200).json(data);
-    })
-    .catch((err) =>
-      res.status(400).send(`Error retrieving login users: ${err}`)
-    );
-};
-
-exports.loginUser = async (req, res) => {
+exports.login = async (req, res) => {
   const { username, password } = req.body;
 
   const user = await knex("users").where({ username }).first();
 
   if (user?.password === password) {
     const token = jwt.sign({ username, id: user.id }, secret);
-    res.json({ token, user });
+
+    res.json({ ...user, token });
   } else {
     res.status(401).json({
       error: {
@@ -27,4 +18,18 @@ exports.loginUser = async (req, res) => {
       },
     });
   }
+};
+
+exports.signup = async (req, res) => {
+  const { username, password, name } = req.body;
+
+  // TODO: Validate if username exists
+
+  await knex("users").insert({ username, password, name });
+
+  const user = await knex("users").where({ username }).first();
+
+  const token = jwt.sign({ username, id: user.id }, secret);
+
+  res.json({ ...user, token });
 };
