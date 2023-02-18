@@ -1,13 +1,16 @@
-/**
- * @param { import("knex").Knex } knex
- * @returns { Promise<void> } 
- */
-exports.seed = async function(knex) {
-  // Deletes ALL existing entries
-  await knex('table_name').del()
-  await knex('table_name').insert([
-    {id: 1, colName: 'rowValue1'},
-    {id: 2, colName: 'rowValue2'},
-    {id: 3, colName: 'rowValue3'}
-  ]);
-};
+const { data } = require("../seed_data/items.json");
+const items = Object.values(data);
+const itemInput = items.map((item, i) => {
+  return {
+    id: i,
+    name: item.name,
+    blurb: item.plaintext,
+    image: `http://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${item.image.full}`,
+    gold: item.gold.total,
+  }
+});
+
+exports.seed = async function (knex) {
+  await knex("items").del();
+  await knex("items").insert(itemInput);
+}
