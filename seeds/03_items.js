@@ -1,12 +1,11 @@
-const { data } = require("../seed_data/items.json");
+const data = require("../seed_data/03_items.json");
 const items = Object.values(data);
-const itemInput = items.map((item, i) => {
+const itemInput = items.map(({name, plaintext, image, gold}) => {
   return {
-    id: i,
-    name: item.name,
-    blurb: item.plaintext,
-    image: `http://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${item.image.full}`,
-    gold: item.gold.total,
+    name,
+    blurb: plaintext,
+    image: `http://ddragon.leagueoflegends.com/cdn/13.1.1/img/item/${image.full}`,
+    gold: gold.total,
   }
 });
 

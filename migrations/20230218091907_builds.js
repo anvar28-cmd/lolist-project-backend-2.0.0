@@ -5,13 +5,13 @@ exports.up = function (knex) {
       .integer("user_id")
       .unsigned()
       .notNullable()
-      .references('id')
-      .inTable('users')
+      .references('users.id')
       .onUpdate("CASCADE")
       .onDelete("CASCADE");
   
       table
         .integer("hero_id")
+        .unsigned()
         .notNullable()
         .references("heroes.id")
         .onUpdate("CASCADE")

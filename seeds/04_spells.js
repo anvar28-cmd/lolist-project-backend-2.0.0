@@ -1,11 +1,10 @@
-const { data } = require("../seed_data/spells.json");
+const data = require("../seed_data/04_spells.json");
 const spells = Object.values(data);
-const spellInput = spells.map((spell, i) => {
+const spellInput = spells.map(({name, description, image}) => {
   return {
-    id: i,
-    name: spell.name,
-    blurb: spell.description,
-    image: `http://ddragon.leagueoflegends.com/cdn/13.3.1/img/spell/${spell.image.full}`,
+    name,
+    blurb: description,
+    image: `http://ddragon.leagueoflegends.com/cdn/13.3.1/img/spell/${image.full}`,
   }
 });
 
