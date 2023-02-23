@@ -30,6 +30,6 @@ exports.signup = async (req, res) => {
   const user = await knex("users").where({ username }).first();
 
   const token = jwt.sign({ username, id: user.id }, secret);
-
+  console.log(token);
   res.json({ ...user, token });
 };

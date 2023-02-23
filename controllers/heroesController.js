@@ -1,9 +1,19 @@
 const knex = require("knex")(require("../knexfile"));
 
-exports.index =  async (_req, res) => {
-  const heroes = await knex("heroes").get();
+// exports.index =  async (_req, res) => {
+//   const heroes = await knex("heroes").get();
 
-  res.json(heroes);
+//   res.json(heroes);
+// };
+
+exports.index = (_req, res) => {
+  knex("heroes")
+    .then((data) => {
+      res.status(200).json(data);
+    })
+    .catch((error) =>
+      res.status(400).send(`Error retrieving heroes: ${error}`)
+    );
 };
 
 exports.singleHero =  async (req, res) => {
