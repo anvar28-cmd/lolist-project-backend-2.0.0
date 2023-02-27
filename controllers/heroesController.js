@@ -1,35 +1,23 @@
 const knex = require("knex")(require("../knexfile"));
 
-// exports.index =  async (_req, res) => {
-//   const heroes = await knex("heroes").get();
-
-//   res.json(heroes);
-// };
-
-exports.index = (_req, res) => {
+exports.index = (_req, res) =>
   knex("heroes")
-    .then((data) => {
-      res.status(200).json(data);
-    })
+    .then((data) => res.status(200).json(data))
     .catch((error) =>
       res.status(400).send(`Error retrieving heroes: ${error}`)
     );
-};
 
-exports.singleHero =  async (req, res) => {
-  const hero = await knex("heroes")
+exports.singleHero = (req, res) =>
+  knex("heroes")
     .where({ slug: req.params.slug })
     .then((data) => {
-        if (!data.length) {
-          return res
-            .status(404)
-            .send(`Record with slug: ${req.params.slug} is not found`);
-        }
-        res.status(200).json(data[0]);
-      })
-      .catch((err) =>
-        res.status(400).send(`Error retrieving hero ${req.params.slug} ${err}`)
-      );
-
-  res.json(hero);
-};
+      if (!data.length) {
+        return res
+          .status(404)
+          .send(`Record with slug: ${req.params.slug} is not found`);
+      }
+      res.status(200).json(data[0]);
+    })
+    .catch((err) =>
+      res.status(400).send(`Error retrieving hero ${req.params.slug} ${err}`)
+    );

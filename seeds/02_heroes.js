@@ -3,7 +3,7 @@ const heroes = Object.values(data);
 const heroInput = heroes.map(({ name, slug, title, blurb, image}) => {
   return {
     name,
-    slug,
+    slug: slug.toLowerCase(),
     title,
     blurb,
     image: `http://ddragon.leagueoflegends.com/cdn/13.1.1/img/champion/${image.full}`,
