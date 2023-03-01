@@ -21,3 +21,23 @@ exports.singleHero = (req, res) =>
     .catch((err) =>
       res.status(400).send(`Error retrieving hero ${req.params.slug} ${err}`)
     );
+
+exports.builds = (req, res) => 
+  knex("heroes")
+    .where({ slug: req.params.slug })
+    .then((data) => {
+      if (!data.length) {
+        return res
+          .status(404)
+          .send(`Record with slug: ${req.params.slug} is not found`);
+      }
+
+      knex("builds")
+        .where({hero_id: data[0].id})
+        .then((data) => 
+          res.status(200).json(data)
+        );
+    })
+    .catch((err) =>
+      res.status(400).send(`Error retrieving hero ${req.params.slug} ${err}`)
+    );

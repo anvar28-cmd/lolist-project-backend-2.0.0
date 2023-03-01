@@ -11,4 +11,8 @@ router
   .route('/:slug')
   .get(heroesController.singleHero);
 
+router
+  .route('/:slug/builds')
+  .get(heroesController.builds);
+
 module.exports = router;
