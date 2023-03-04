@@ -69,13 +69,51 @@ exports.store = async (req, res) => {
   }
 };
 
-// exports.singleBuild = async (req, res) => {
-//   const build = await knex("builds").where({
-//     id: req.params.id
-//   })
-//     .then
-// };
-//   knex("spells")
+exports.singleHeroBuild = async (req, res) => {
+  const serverBuilds = await knex("builds").where({ user_id: req.payload.id, slug: req.params.slug })
+
+  const clientHeroBuild = [];
+  
+
+  for (let i = 0; i < serverBuilds.length; i++) {
+    const serverBuild = serverBuilds[i];
+
+    const hero = await knex("heroes").where({id: serverBuild.hero_id}).first();
+
+    const buildItems = await knex("build_item").where({build_id: serverBuild.id});
+    const items = [];
+    for (let k = 0; k < buildItems.length; k++) {
+      const buildItem = buildItems[k];
+      const item = await knex("items").where({id: buildItem.item_id}).first();
+      items.push(item);
+    }
+    
+    const buildSpells = await knex("build_spell").where({build_id: serverBuild.id});
+    const spells = [];
+    for (let j = 0; j < buildSpells.length; j++) {
+      const buildSpell = buildSpells[j];
+      const spell = await knex("spells").where({id: buildSpell.spell_id}).first();
+      spells.push(spell);
+    }
+
+    clientHeroBuild.push({
+      id: serverBuild.id,
+      title: serverBuild.name,
+      user_id: serverBuild.user_id,
+      hero,
+      items,
+      spells,
+    });
+  }
+
+  res.status(200).json(clientHeroBuild);
+  console.log(clientHeroBuild);
+
+
+
+
+};
+//   knex("builds")
 //     .where({ id: req.params.id })
 //     .then((data) => {
 //       if (!data.length) {
