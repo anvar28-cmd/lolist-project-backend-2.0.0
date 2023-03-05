@@ -8,8 +8,9 @@ router
   .get(buildsController.index)
   .post(buildsController.store);
 
-router
-  .route("/:heroID/builds")
-  .get(buildsController.singleHeroBuild)
+router 
+  .route("/:id")
+  .delete(buildsController.deleteBuild)
+  .put(buildsController.editBuild);
   
 module.exports = router;

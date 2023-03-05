@@ -13,6 +13,9 @@ router
 
 router
   .route('/:slug/builds')
-  .get(heroesController.builds);
+  .get(heroesController.builds)
+
+router
+.route
 
 module.exports = router;
