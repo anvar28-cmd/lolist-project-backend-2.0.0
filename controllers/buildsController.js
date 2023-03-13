@@ -105,10 +105,10 @@ exports.editBuild = (req, res) => {
     );
 };
 
-exports.deleteBuild = (req, res) => {
+exports.delete = (req, res) => 
   knex("builds")
-    .delete()
     .where({ id: req.params.id })
+    .delete()
     .then(() => {
       res
         .status(204)
@@ -117,4 +117,3 @@ exports.deleteBuild = (req, res) => {
     .catch((err) =>
       res.status(400).send(`Error deleting build ${req.params.id} ${err}`)
     );
-};

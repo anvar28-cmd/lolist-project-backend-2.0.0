@@ -10,7 +10,7 @@ router
 
 router 
   .route("/:id")
-  .delete(buildsController.deleteBuild)
+  .delete(buildsController.delete)
   .put(buildsController.editBuild);
   
 module.exports = router;
