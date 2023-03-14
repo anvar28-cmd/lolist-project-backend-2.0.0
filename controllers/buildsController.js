@@ -1,7 +1,9 @@
 const knex = require("knex")(require("../knexfile"));
 
 exports.index = async (req, res) => {
-  const serverBuilds = await knex("builds").where({ user_id: req.payload.id });
+
+  try {
+    const serverBuilds = await knex("builds").where({ user_id: req.payload.id });
 
   const clientBuilds = [];
 
@@ -45,6 +47,10 @@ exports.index = async (req, res) => {
   }
 
   res.status(200).json(clientBuilds);
+  } catch (error) {
+    res.status(400).send(`Error retrieiving builds: ${error} `);
+  }
+  
 };
 
 exports.store = async (req, res) => {
@@ -73,7 +79,7 @@ exports.store = async (req, res) => {
 
     res.status(200).send("Success");
   } catch (error) {
-    res.status(400).send(`Error `);
+    res.status(400).send(`Error posting build: ${error} `);
   }
 };
 

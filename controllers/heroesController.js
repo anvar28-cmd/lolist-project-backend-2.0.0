@@ -23,7 +23,9 @@ exports.singleHero = (req, res) =>
     );
 
 exports.builds = async (req, res) => {
-  const hero = await knex("heroes").where({ slug: req.params.slug }).first();
+
+  try {
+    const hero = await knex("heroes").where({ slug: req.params.slug }).first();
   const serverBuilds = await knex("builds").where({
     user_id: req.payload.id,
     hero_id: hero.id,
@@ -71,6 +73,10 @@ exports.builds = async (req, res) => {
   }
 
   res.status(200).json(clientBuilds);
+  } catch (error) {
+    res.status(400).send(`Error retrieiving hero's builds: ${error} `);
+  }
+  
 };
 
 
