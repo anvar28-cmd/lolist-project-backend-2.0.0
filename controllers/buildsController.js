@@ -77,42 +77,12 @@ exports.store = async (req, res) => {
   }
 };
 
-
-exports.editBuild = (req, res) => {
-  if (
-    !req.body.hero_id ||
-    !req.body.name ||
-    !req.body.build_id ||
-    !req.body.item_id ||
-    !req.body.spell_id
-  ) {
-    return res
-      .status(400)
-      .send(
-        "Please make sure to add hero id, name of the build, items and spells"
-      );
-  }
-  knex("builds")
-    .update(req.body)
-    .where({ id: req.params.id })
-    .then(() => {
-      res
-        .status(200)
-        .send(`Build with id: ${req.params.id} has been updated`);
-    })
-    .catch((err) =>
-      res.status(400).send(`Error updating build ${req.params.id} ${err}`)
-    );
-};
-
-exports.delete = (req, res) => 
+exports.delete = (req, res) =>
   knex("builds")
     .where({ id: req.params.id })
     .delete()
     .then(() => {
-      res
-        .status(204)
-        .send(`Build with id: ${req.params.id} has been deleted`);
+      res.status(204).send(`Build with id: ${req.params.id} has been deleted`);
     })
     .catch((err) =>
       res.status(400).send(`Error deleting build ${req.params.id} ${err}`)

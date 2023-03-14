@@ -11,6 +11,5 @@ router
 router 
   .route("/:id")
   .delete(buildsController.delete)
-  .put(buildsController.editBuild);
   
 module.exports = router;
