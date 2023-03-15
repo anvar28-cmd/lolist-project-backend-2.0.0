@@ -15,7 +15,7 @@ const builds = require("./routes/builds")
 const jwt = require("jsonwebtoken");
 const secret = process.env.SECRET_KEY ?? "secret123";
 
-app.use(cors({ origin: process.env.ALLOWED_ORIGIN }));
+app.use(cors());
 app.use(express.json());
 
 app.use("/auth", auth);
