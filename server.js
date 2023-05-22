@@ -1,19 +1,18 @@
 const express = require("express");
 const cors = require("cors");
+const jwt = require("jsonwebtoken");
 
 require("dotenv").config();
 
 const app = express();
 const port = process.env.PORT ?? 8080;
+const secret = process.env.SECRET_KEY ?? "secret123";
 
 const auth = require("./routes/auth");
 const heroes = require("./routes/heroes");
 const items = require("./routes/items")
 const spells = require("./routes/spells")
 const builds = require("./routes/builds")
-
-const jwt = require("jsonwebtoken");
-const secret = process.env.SECRET_KEY ?? "secret123";
 
 app.use(cors());
 app.use(express.json());
@@ -33,11 +32,12 @@ function checkAuth(req, res, next) {
   
   jwt.verify(token, secret, (err, decoded) => {
     if (err) {
+      console.error(err);
       res.status(401).send("Unauthorized");
     } else {
       req.payload = decoded;
+      next();
     }
   });
 
-  next();
 }
